@@ -32,14 +32,19 @@ export default function PackageCard({ pkg }: { pkg: CateringPackage }) {
 
         <div className="mt-6 border-t border-line pt-6">
           {pkg.price !== null ? (
-            <p className="flex items-baseline gap-2">
-              <span className="font-display text-3xl text-maroon">
-                ₹{pkg.price}
-              </span>
-              <span className="text-sm text-charcoal-soft">
-                {pkg.priceUnit}
-              </span>
-            </p>
+            <>
+              {pkg.priceIsStartingFrom && (
+                <p className="text-xs font-semibold tracking-wide text-charcoal-soft">
+                  Starting from
+                </p>
+              )}
+              <p className="flex items-baseline gap-2">
+                <span className="font-display text-3xl text-maroon">
+                  ₹{pkg.price}
+                </span>
+                <span className="text-sm text-charcoal-soft">{pkg.priceUnit}</span>
+              </p>
+            </>
           ) : (
             <p className="font-display text-2xl text-maroon">
               Enquire{" "}
@@ -55,10 +60,7 @@ export default function PackageCard({ pkg }: { pkg: CateringPackage }) {
 
         <ul className="mt-6 space-y-3">
           {pkg.highlights.map((h) => (
-            <li
-              key={h}
-              className="flex items-start gap-2.5 text-sm text-charcoal"
-            >
+            <li key={h} className="flex items-start gap-2.5 text-sm text-charcoal">
               <Check size={16} className="mt-0.5 shrink-0 text-gold" />
               {h}
             </li>
@@ -79,7 +81,7 @@ export default function PackageCard({ pkg }: { pkg: CateringPackage }) {
           </button>
           <a
             href={whatsappLink(
-              `Hi Shiva Caterers, I'd like to enquire about the ${pkg.name} package.`,
+              `Hi Shiva Caterers, I'd like to enquire about the ${pkg.name} package.`
             )}
             target="_blank"
             rel="noopener noreferrer"
@@ -125,13 +127,26 @@ export default function PackageCard({ pkg }: { pkg: CateringPackage }) {
               Exact selection is planned around your event and guest count.
             </p>
 
+            {pkg.priceIsStartingFrom && pkg.price !== null && (
+              <div className="mt-6 flex items-center justify-between rounded-lg border border-line bg-ivory-deep/60 px-4 py-3">
+                <span className="text-sm text-charcoal">
+                  Starting from{" "}
+                  <span className="font-display text-lg text-maroon">
+                    ₹{pkg.price}
+                  </span>{" "}
+                  {pkg.priceUnit}
+                </span>
+                <span className="text-xs italic text-charcoal-soft">
+                  Final price by guest count
+                </span>
+              </div>
+            )}
+
             <div className="mt-6 grid gap-x-8 gap-y-7 border-t border-line pt-6 sm:grid-cols-2">
               {pkg.categories.map((cat) => (
                 <div key={cat.name}>
                   <div className="flex items-baseline justify-between gap-2">
-                    <h4 className="font-display text-lg text-maroon">
-                      {cat.name}
-                    </h4>
+                    <h4 className="font-display text-lg text-maroon">{cat.name}</h4>
                     {cat.selectionText && (
                       <span className="text-[11px] font-semibold tracking-wide text-gold">
                         {cat.selectionText.toUpperCase()}
@@ -160,7 +175,7 @@ export default function PackageCard({ pkg }: { pkg: CateringPackage }) {
 
             <a
               href={whatsappLink(
-                `Hi Shiva Caterers, I'd like to enquire about the ${pkg.name} package.`,
+                `Hi Shiva Caterers, I'd like to enquire about the ${pkg.name} package.`
               )}
               target="_blank"
               rel="noopener noreferrer"

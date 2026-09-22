@@ -5,14 +5,29 @@ export type MenuCategory = {
   items: string[];
 };
 
+export type PriceTier = {
+  guestRange: string;
+  /** null = not yet confirmed by the client — shown as "TBD" until filled in */
+  price: number | null;
+};
+
 export type CateringPackage = {
   slug: "classic" | "signature" | "royal";
   eyebrow: string;
   name: string;
   tagline: string;
-  /** null = price not yet confirmed, shown as "Enquire for a tailored quote" */
+  /**
+   * Use `price` for a single flat rate, OR `priceTiers` for guest-count-based
+   * pricing (e.g. Classic). If `priceTiers` is set, the card shows
+   * "Starting from ₹<lowest confirmed price>" and the full tier table appears
+   * in the menu modal. `price: null` with no tiers shows "Enquire for a
+   * tailored quote".
+   */
   price: number | null;
   priceUnit?: string;
+  /** true = card/modal show "Starting from ₹<price>" instead of a flat price */
+  priceIsStartingFrom?: boolean;
+  priceTiers?: PriceTier[];
   guestRange: string;
   guestNote?: string;
   mostChosen?: boolean;
@@ -21,131 +36,123 @@ export type CateringPackage = {
   categories: MenuCategory[];
 };
 
+// Shared menu items across all three packages (per client's latest list).
+// Signature and Royal currently mirror Classic's items — differentiate them
+// with `selectionText` (e.g. "Choose any 3") once the client confirms limits.
+const sharedCategories: MenuCategory[] = [
+  {
+    name: "Welcome Drinks",
+    items: ["Buttermilk", "Fresh Lime Juice", "Jaljeera", "Lassi", "Mango", "Orange"],
+  },
+  {
+    name: "Starters",
+    items: ["Chilli Paneer", "Masala Papada", "Paneer Tikka", "Veg Manchurian", "Gobi 65"],
+  },
+  {
+    name: "Sweets",
+    items: [
+      "Haluggi",
+      "Hesarabele Payasa",
+      "Amrakhanda",
+      "Badam Puri",
+      "Basundi",
+      "Bundi",
+      "Bundi Ladoo",
+      "Carrot Halwa",
+      "Fruit Custard",
+      "Gulab Jamun",
+      "Ladaki Ladoo",
+      "Ladaki Vade",
+      "Moti Chur Vade",
+      "Shavige Payasa",
+      "Akki Payasa",
+      "Rasgulla",
+      "Sanza",
+      "Shira",
+      "Shrikhanda",
+    ],
+  },
+  {
+    name: "Main Course · Vegetable Curries",
+    items: [
+      "Akka Masur",
+      "Palak Paneer",
+      "Paneer Butter Masala",
+      "Shahi Paneer",
+      "Kaju Masala",
+      "Kaju Paneer",
+      "Aloo Matar",
+      "Aloo Paneer Matar",
+      "Chole Masala",
+      "Bhindi Fry",
+      "Dal Fry",
+      "Hesar Kala",
+      "Malaki Kala",
+      "Mix Veg",
+      "Soya Masala",
+      "Badanikayi",
+      "Badanikayi Enagayi",
+      "Baingan Bharta",
+      "Batati Bhaji",
+      "Veg Kolhapuri",
+      "Veg Kurma",
+    ],
+  },
+  {
+    name: "Main Course · Breads",
+    items: [
+      "Chapati",
+      "Methi Chapati",
+      "Palak Chapati",
+      "Puri",
+      "Masala Puri",
+      "Masala Roti",
+      "Jolada Rotti",
+      "Ragi Rotti",
+      "Sajji Rotti",
+      "Gonjal Rotti",
+    ],
+  },
+  {
+    name: "Main Course · Rice & Pulao",
+    items: [
+      "Jeera Rice",
+      "Kuska Rice",
+      "Masala Rice",
+      "Ghee Rice",
+      "Paneer Pulao",
+      "Steamed Rice",
+      "Veg Biryani",
+      "Veg Pulao",
+      "Curd Rice",
+      "Dal Khichadi",
+      "Puliyogare",
+    ],
+  },
+  {
+    name: "Breakfast",
+    items: ["Idli", "Vada", "Uppit", "Shira", "Poha", "Susla", "Dosa"],
+  },
+  {
+    name: "Soups",
+    items: ["Lemon Coriander Soup", "Manchow Soup", "Tomato Soup"],
+  },
+];
+
 export const packages: CateringPackage[] = [
   {
     slug: "classic",
     eyebrow: "The Traditional Table",
     name: "Classic",
     tagline: "Traditional favourites for memorable celebrations.",
-    price: 180,
+    price: 140,
     priceUnit: "/ plate",
+    priceIsStartingFrom: true,
     guestRange: "50–500 People",
     highlights: ["Sweets", "Starters", "Main course", "Rice & breads"],
     footnote:
-      "Verified starting price. Final menu choices are planned with your event.",
-    categories: [
-      {
-        name: "Welcome Drinks",
-        items: [
-          "Buttermilk",
-          "Fresh Lime Juice",
-          "Jaljeera",
-          "Lassi",
-          "Mango",
-          "Orange",
-        ],
-      },
-      {
-        name: "Starters",
-        items: [
-          "Chilli Paneer",
-          "Masala Papada",
-          "Paneer Tikka",
-          "Veg Manchurian",
-          "Gobi 65",
-        ],
-      },
-      {
-        name: "Sweets",
-        items: [
-          "Haluggi",
-          "Hesarabele Payasa",
-          "Amrakhanda",
-          "Badam Puri",
-          "Basundi",
-          "Bundi",
-          "Bundi Ladoo",
-          "Carrot Halwa",
-          "Fruit Custard",
-          "Gulab Jamun",
-          "Ladaki Ladoo",
-          "Ladaki Vade",
-          "Moti Chur Vade",
-          "Shavige Payasa",
-          "Akki Payasa",
-          "Rasgulla",
-          "Sanza",
-          "Shira",
-          "Shrikhanda",
-        ],
-      },
-      {
-        name: "Main Course · Vegetable Curries",
-        items: [
-          "Akka Masur",
-          "Palak Paneer",
-          "Paneer Butter Masala",
-          "Shahi Paneer",
-          "Kaju masala",
-          "Kaju paneer",
-          "Aloo Matar",
-          "Aloo Paneer Matar",
-          "Chole Masala",
-          "Bhindi  Fry",
-          "Dal Fry",
-          "Hesar kala",
-          "Malaki kala",
-          "Mix Veg",
-          "Soya Masala",
-          "Badanikayi",
-          "Badanikayi Enagayi",
-          "Baingan Bharta",
-          "Batati bhaji",
-          "Veg Kolhapuri",
-          "Veg kurma",
-          "etc...",
-        ],
-      },
-      {
-        name: "Main Course · Breads",
-        items: [
-          "Chapati",
-          "Methi Chapati",
-          "Palak Chapati",
-          "Puri",
-          "Masala Puri",
-          "Masala Roti",
-          "Jolada Rotti",
-          "Ragi Rotti",
-          "Sajji Rotti",
-          "Gonjal Rotti",
-        ],
-      },
-      {
-        name: "Main Course · Rice & Pulao",
-        items: [
-          "Jeera Rice",
-          "Kuska Rice",
-          "Masala Rice",
-          "Ghee Rice",
-          "Paneer Pulao",
-          "Steamed Rice",
-          "Veg Biryani",
-          "Veg Pulao",
-          "Curd Rice",
-          "Dal Khichadi",
-          "Puliyogare",
-        ],
-      },
-      {
-        name: "Breakfast",
-        items: ["Idli", "Vada", "Uppit", "Shira", "Poha", "Susla", "Dosa"],
-      },
-      {
-        name: "Soups",
-        items: ["Lemon Coriander Soup", "Manchow Soup", "Tomato Soup"],
-      },
-    ],
+      "Final price depends on guest count. Contact us for exact pricing based on your event size.",
+    categories: sharedCategories,
   },
   {
     slug: "signature",
@@ -161,121 +168,8 @@ export const packages: CateringPackage[] = [
       "Optional add-ons",
       "Service planning",
     ],
-    footnote:
-      "Pricing and final selections shared after understanding your event.",
-   categories: [
-      {
-        name: "Welcome Drinks",
-        items: [
-          "Buttermilk",
-          "Fresh Lime Juice",
-          "Jaljeera",
-          "Lassi",
-          "Mango",
-          "Orange",
-        ],
-      },
-      {
-        name: "Starters",
-        items: [
-          "Chilli Paneer",
-          "Masala Papada",
-          "Paneer Tikka",
-          "Veg Manchurian",
-          "Gobi 65",
-        ],
-      },
-      {
-        name: "Sweets",
-        items: [
-          "Haluggi",
-          "Hesarabele Payasa",
-          "Amrakhanda",
-          "Badam Puri",
-          "Basundi",
-          "Bundi",
-          "Bundi Ladoo",
-          "Carrot Halwa",
-          "Fruit Custard",
-          "Gulab Jamun",
-          "Ladaki Ladoo",
-          "Ladaki Vade",
-          "Moti Chur Vade",
-          "Shavige Payasa",
-          "Akki Payasa",
-          "Rasgulla",
-          "Sanza",
-          "Shira",
-          "Shrikhanda",
-        ],
-      },
-      {
-        name: "Main Course · Vegetable Curries",
-        items: [
-          "Akka Masur",
-          "Palak Paneer",
-          "Paneer Butter Masala",
-          "Shahi Paneer",
-          "Kaju masala",
-          "Kaju paneer",
-          "Aloo Matar",
-          "Aloo Paneer Matar",
-          "Chole Masala",
-          "Bhindi  Fry",
-          "Dal Fry",
-          "Hesar kala",
-          "Malaki kala",
-          "Mix Veg",
-          "Soya Masala",
-          "Badanikayi",
-          "Badanikayi Enagayi",
-          "Baingan Bharta",
-          "Batati bhaji",
-          "Veg Kolhapuri",
-          "Veg kurma",
-          "etc...",
-        ],
-      },
-      {
-        name: "Main Course · Breads",
-        items: [
-          "Chapati",
-          "Methi Chapati",
-          "Palak Chapati",
-          "Puri",
-          "Masala Puri",
-          "Masala Roti",
-          "Jolada Rotti",
-          "Ragi Rotti",
-          "Sajji Rotti",
-          "Gonjal Rotti",
-        ],
-      },
-      {
-        name: "Main Course · Rice & Pulao",
-        items: [
-          "Jeera Rice",
-          "Kuska Rice",
-          "Masala Rice",
-          "Ghee Rice",
-          "Paneer Pulao",
-          "Steamed Rice",
-          "Veg Biryani",
-          "Veg Pulao",
-          "Curd Rice",
-          "Dal Khichadi",
-          "Puliyogare",
-        ],
-      },
-      {
-        name: "Breakfast",
-        items: ["Idli", "Vada", "Uppit", "Shira", "Poha", "Susla", "Dosa"],
-      },
-      {
-        name: "Soups",
-        items: ["Lemon Coriander Soup", "Manchow Soup", "Tomato Soup"],
-      },
-    ],
+    footnote: "Pricing and final selections shared after understanding your event.",
+    categories: sharedCategories,
   },
   {
     slug: "royal",
@@ -290,120 +184,7 @@ export const packages: CateringPackage[] = [
       "Premium presentation",
       "Dedicated planning",
     ],
-    footnote:
-      "Pricing and final selections shared after understanding your event.",
-    categories: [
-      {
-        name: "Welcome Drinks",
-        items: [
-          "Buttermilk",
-          "Fresh Lime Juice",
-          "Jaljeera",
-          "Lassi",
-          "Mango",
-          "Orange",
-        ],
-      },
-      {
-        name: "Starters",
-        items: [
-          "Chilli Paneer",
-          "Masala Papada",
-          "Paneer Tikka",
-          "Veg Manchurian",
-          "Gobi 65",
-        ],
-      },
-      {
-        name: "Sweets",
-        items: [
-          "Haluggi",
-          "Hesarabele Payasa",
-          "Amrakhanda",
-          "Badam Puri",
-          "Basundi",
-          "Bundi",
-          "Bundi Ladoo",
-          "Carrot Halwa",
-          "Fruit Custard",
-          "Gulab Jamun",
-          "Ladaki Ladoo",
-          "Ladaki Vade",
-          "Moti Chur Vade",
-          "Shavige Payasa",
-          "Akki Payasa",
-          "Rasgulla",
-          "Sanza",
-          "Shira",
-          "Shrikhanda",
-        ],
-      },
-      {
-        name: "Main Course · Vegetable Curries",
-        items: [
-          "Akka Masur",
-          "Palak Paneer",
-          "Paneer Butter Masala",
-          "Shahi Paneer",
-          "Kaju masala",
-          "Kaju paneer",
-          "Aloo Matar",
-          "Aloo Paneer Matar",
-          "Chole Masala",
-          "Bhindi  Fry",
-          "Dal Fry",
-          "Hesar kala",
-          "Malaki kala",
-          "Mix Veg",
-          "Soya Masala",
-          "Badanikayi",
-          "Badanikayi Enagayi",
-          "Baingan Bharta",
-          "Batati bhaji",
-          "Veg Kolhapuri",
-          "Veg kurma",
-          "etc...",
-        ],
-      },
-      {
-        name: "Main Course · Breads",
-        items: [
-          "Chapati",
-          "Methi Chapati",
-          "Palak Chapati",
-          "Puri",
-          "Masala Puri",
-          "Masala Roti",
-          "Jolada Rotti",
-          "Ragi Rotti",
-          "Sajji Rotti",
-          "Gonjal Rotti",
-        ],
-      },
-      {
-        name: "Main Course · Rice & Pulao",
-        items: [
-          "Jeera Rice",
-          "Kuska Rice",
-          "Masala Rice",
-          "Ghee Rice",
-          "Paneer Pulao",
-          "Steamed Rice",
-          "Veg Biryani",
-          "Veg Pulao",
-          "Curd Rice",
-          "Dal Khichadi",
-          "Puliyogare",
-        ],
-      },
-      {
-        name: "Breakfast",
-        items: ["Idli", "Vada", "Uppit", "Shira", "Poha", "Susla", "Dosa"],
-      },
-      {
-        name: "Soups",
-        items: ["Lemon Coriander Soup", "Manchow Soup", "Tomato Soup"],
-      },
-    ],
+    footnote: "Pricing and final selections shared after understanding your event.",
+    categories: sharedCategories,
   },
 ];
