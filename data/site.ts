@@ -3,7 +3,7 @@ export const siteConfig = {
   tagline: "Pure Taste. Pure Tradition.",
   description:
     "Pure vegetarian catering for weddings, engagements, family celebrations and grand occasions across Athani, Belagavi and nearby areas.",
-  url: "https://shivacaterers.netlify.app",
+  url: "https://shivacaterers.in",
   phone: "+919902754584",
   phoneDisplay: "+91 99027 54584",
   email: "shivacaterers84@gmail.com",
