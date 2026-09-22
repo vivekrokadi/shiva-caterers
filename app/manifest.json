@@ -1,0 +1,23 @@
+{
+  "name": "Shiva Caterers — Pure Vegetarian Catering",
+  "short_name": "Shiva Caterers",
+  "description": "Pure vegetarian catering for weddings, engagements, family celebrations and grand occasions across Athani, Belagavi and nearby areas.",
+  "icons": [
+    {
+      "src": "/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "theme_color": "#5b1220",
+  "background_color": "#f8f3ea",
+  "display": "standalone",
+  "start_url": "/"
+}
