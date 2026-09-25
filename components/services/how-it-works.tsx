@@ -14,24 +14,26 @@ export default function HowItWorks() {
           How it works
         </h2>
 
-        <div className="mt-16 flex flex-col gap-10 sm:flex-row sm:items-start sm:justify-between">
+        {/* Using standard vertical gap for mobile, turning into a clean 4-column grid on desktop */}
+        <div className="mt-16 grid grid-cols-1 gap-12 sm:grid-cols-4 sm:gap-6">
           {steps.map((step, i) => (
-            <div key={step.title} className="relative flex-1">
-              <div className="flex items-center">
-                <span
-                  className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-gold font-display text-lg text-maroon ${
-                    i === 0 ? "mx-auto sm:mx-0" : "mx-auto"
-                  }`}
-                >
-                  0{i + 1}
-                </span>
-                {i < steps.length - 1 && (
-                  <span className="hidden h-px flex-1 bg-gold/40 sm:block" />
-                )}
+            <div key={step.title} className="group relative flex flex-col items-center text-center">
+              
+              {/* Connecting Lines: Rendered ONLY on desktop views (sm:) and hidden on mobile */}
+              {i < steps.length - 1 && (
+                <span className="hidden absolute left-[60%] right-[-40%] top-8 h-px bg-gold/30 sm:block" />
+              )}
+
+              {/* Number Circle: Clean, centered, and interactive */}
+              <div className="relative z-10 flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-gold bg-ivory-deep font-display text-lg text-maroon transition-transform duration-300 group-hover:scale-105">
+                0{i + 1}
               </div>
-              <p className="mt-4 text-sm font-medium text-charcoal">
+
+              {/* Step Title: Balanced alignment with a max-width boundary */}
+              <p className="mt-5 max-w-[180px] text-base font-medium text-charcoal">
                 {step.title}
               </p>
+              
             </div>
           ))}
         </div>
@@ -39,3 +41,4 @@ export default function HowItWorks() {
     </section>
   );
 }
+  
