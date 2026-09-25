@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Phone, Mail, MapPin, MessageCircle } from "lucide-react";
 import { navLinks, siteConfig, telLink, whatsappLink } from "@/data/site";
 import { services } from "@/data/services";
+import { InstagramIcon } from "@/components/icons/instagram-icon";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -76,7 +77,7 @@ export default function Footer() {
                 {siteConfig.email}
               </a>
             </li>
-            <li>
+            <li className="flex flex-wrap gap-2.5">
               <a
                 href={whatsappLink()}
                 target="_blank"
@@ -84,6 +85,14 @@ export default function Footer() {
                 className="mt-1 inline-flex items-center gap-2 rounded-full border border-gold-light/50 px-4 py-2 text-xs font-semibold text-gold-light hover:bg-ivory/10"
               >
                 <MessageCircle size={14} /> WhatsApp Us
+              </a>
+              <a
+                href={siteConfig.instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-1 inline-flex items-center gap-2 rounded-full border border-gold-light/50 px-4 py-2 text-xs font-semibold text-gold-light hover:bg-ivory/10"
+              >
+                <InstagramIcon size={14} /> Instagram
               </a>
             </li>
           </ul>

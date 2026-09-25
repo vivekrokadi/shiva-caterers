@@ -7,6 +7,7 @@ export const siteConfig = {
   phone: "+919902754584",
   phoneDisplay: "+91 99027 54584",
   email: "shivacaterers84@gmail.com",
+  instagramUrl: "https://www.instagram.com/shivacaterers.in/",
   address: {
     line1: "Shivayogi Nagar",
     city: "Athani",

@@ -1,5 +1,6 @@
 import { Phone, MessageCircle, MapPin, Mail, Clock } from "lucide-react";
 import { siteConfig, telLink, whatsappLink } from "@/data/site";
+import { InstagramIcon } from "@/components/icons/instagram-icon";
 
 export default function ContactSection() {
   return (
@@ -58,6 +59,22 @@ export default function ContactSection() {
                   className="text-lg text-ivory hover:text-gold-light break-all"
                 >
                   {siteConfig.email}
+                </a>
+              </div>
+            </li>
+            <li className="flex items-start gap-4">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gold-light/50 text-gold-light">
+                <InstagramIcon size={17} />
+              </span>
+              <div>
+                <p className="text-xs font-semibold tracking-wide text-gold-light">INSTAGRAM</p>
+                <a
+                  href={siteConfig.instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-lg text-ivory hover:text-gold-light"
+                >
+                  @shivacaterers.in
                 </a>
               </div>
             </li>
